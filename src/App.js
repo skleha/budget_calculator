@@ -43,7 +43,6 @@ class App extends React.Component {
         itemData.push(doc.data());
       }      
     })
-    console.log(itemData);
     return itemData;
   }  
 
@@ -67,13 +66,14 @@ class App extends React.Component {
     });
   }
 
-
+  // Sets state on input into budget field
   handleBudgetInput(field) {
     return e => {
       this.setState({ [field]: e.currentTarget.value });
     }
   }
 
+  // Allows user to proceed to next step non-empty-string state
   handleProceedClick() {
     if (this.state.budget === "") {
       window.alert("Please enter a valid number");
@@ -82,17 +82,27 @@ class App extends React.Component {
     }
   }
 
+  renderTableData(items) {
+    return items.map((item, idx) => {
+      const {name, highPrice, lowPrice } = item
+      
+      return (
+        <tr key={idx}>
+          <td><input type="checkbox"></input></td>
+          <td>{name}</td>
+          <td>{this.numberWithCommas(lowPrice)}</td>
+          <td>{this.numberWithCommas(highPrice)}</td>
+        </tr>
+      )
+    })
+  }
+
+  numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
 
   render() {
     if (this.state.isLoading) return ("Loading...");
-
-    // const lighting = this.state.allItems.filter(item => item.type === "LIGHTING");
-    // const waterFeatures = this.state.allItems.filter(item => item.type === "WATER_FEATURES");
-    // const groundCover = this.state.allItems.filter(item => item.type === "GROUND_COVER");
-    // const fencingAndPrivacy = this.state.allItems.filter(item => item.type === "FENCING_AND_PRIVACY");
-    // const deckMaterial = this.state.allItems.filter(item => item.type === "DECK_MATERIAL");
-    // const structures = this.state.allItems.filter(item => item.type === "STRUCTURES");
-    
 
     if (!this.state.haveBudget) {
 
@@ -104,20 +114,45 @@ class App extends React.Component {
           type="text"
           placeholder="enter a number"
           onChange={this.handleBudgetInput("budget")}/>
-          <button onClick={this.handleProceedClick}>Proceed</button>
-        
+          <button className="proceed-button" onClick={this.handleProceedClick}>Proceed to Checklist</button>
         </div>
       )
 
     } else {
 
-      
+      const lighting = this.state.allItems.filter(item => item.type === "LIGHTING");
+      // const waterFeatures = this.state.allItems.filter(item => item.type === "WATER_FEATURES");
+      // const groundCover = this.state.allItems.filter(item => item.type === "GROUND_COVER");
+      // const fencingAndPrivacy = this.state.allItems.filter(item => item.type === "FENCING_AND_PRIVACY");
+      // const deckMaterial = this.state.allItems.filter(item => item.type === "DECK_MATERIAL");
+      // const structures = this.state.allItems.filter(item => item.type === "STRUCTURES");
 
 
       return (
-        <div>Here is the checklist</div>
-      )
+        <div className="checklist">
+          <div className="checklist-title">So tell us what you had in mind (check all that apply):</div>
 
+          <div className="item-type-subheading">Lighting</div>
+            <table className="feature-table">
+              <tbody>
+                <tr>
+                  <td></td>
+                  <td>Number of Lights</td>
+                  <td>Low Estimate</td>
+                  <td>High Estimate</td>
+                </tr>
+                {this.renderTableData(lighting)}
+              </tbody>
+            </table>
+          </div>
+
+
+
+
+
+
+
+        )
     } 
   }
     
