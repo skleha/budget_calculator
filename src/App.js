@@ -203,6 +203,17 @@ class App extends React.Component {
               </tbody>
             </table>
 
+          <table className="feature-table">
+            <tbody>
+              <tr>
+                <td>Total Budget</td>
+                <td></td>
+                <td></td>
+                <td>{this.numberWithCommas(this.state.budget)}</td>
+              </tr>
+            </tbody>
+          </table>
+
 
         </div>
 
