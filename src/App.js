@@ -7,7 +7,12 @@ class App extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {isLoading: true}
+    this.state = {
+      isLoading: true,
+      allItems: "",
+      haveBudget: false,  
+      budget: ""
+    }
 
     if (!firebase.apps.length) {
       firebase.initializeApp(
