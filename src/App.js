@@ -50,9 +50,13 @@ class App extends React.Component {
   }
 
 
+  handleInput(field) {
 
+    return e => {
+      this.setState({ [field]: e.currentTarget.value });
+    }
 
-
+  }
 
   render() {
     if (this.state.isLoading) return ("Loading...");
@@ -65,7 +69,10 @@ class App extends React.Component {
           <input
           className="budget-input"
           type="text"
-          placeholder="enter a number"/>
+          placeholder="enter a number"
+          onChange={this.handleInput("budget")}/>
+        
+        
         </div>
       )
 
