@@ -2,12 +2,29 @@ import React  from 'react';
 import "firebase/firestore";
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      good luck
-    </div>
-  );
-}
+class App extends React.Component {
 
-export default App;
+  constructor(props) {
+    super(props)
+    this.state = {isLoading: true}
+  }
+
+
+
+  render() {
+
+    return (
+      <div>You have the app</div>
+
+    )
+    
+    
+  }
+    
+        
+}
+    
+    
+    
+    
+    export default App;
