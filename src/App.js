@@ -88,10 +88,10 @@ class App extends React.Component {
       
       return (
         <tr key={idx}>
-          <td><input type="checkbox"></input></td>
-          <td>{name}</td>
-          <td>{this.numberWithCommas(lowPrice)}</td>
-          <td>{this.numberWithCommas(highPrice)}</td>
+          <td className="table-checkbox"><input type="checkbox"></input></td>
+          <td className="table-name">{name}</td>
+          <td className="table-lowPrice">{this.numberWithCommas(lowPrice)}</td>
+          <td className="table-highPrice">{this.numberWithCommas(highPrice)}</td>
         </tr>
       )
     })
@@ -120,7 +120,8 @@ class App extends React.Component {
 
     } else {
 
-      const lighting = this.state.allItems.filter(item => item.type === "LIGHTING");
+      //Parse allItems by type, add additional sorting logic where needed
+      const lighting = this.state.allItems.filter(item => item.type === "LIGHTING").sort((a,b) => parseInt(a.highPrice) - parseInt(b.highPrice));
       // const waterFeatures = this.state.allItems.filter(item => item.type === "WATER_FEATURES");
       // const groundCover = this.state.allItems.filter(item => item.type === "GROUND_COVER");
       // const fencingAndPrivacy = this.state.allItems.filter(item => item.type === "FENCING_AND_PRIVACY");
