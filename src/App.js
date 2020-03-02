@@ -9,14 +9,15 @@ class App extends React.Component {
     super(props)
     this.state = {
       isLoading: true,
-      allItems: "",
       haveBudget: false,  
       budget: "",
-      totalLowPrice: "",
-      totalHighPrice: ""
+      allItems: "",
+      allItemCheckBoxes: "",
+      totalLowPrice: 0,
+      totalHighPrice: 0
     }
 
-    // Conditional here prevents double-initialization
+    // Conditional in constructor prevents double-initialization
     if (!firebase.apps.length) {
       firebase.initializeApp(
         {
@@ -32,9 +33,10 @@ class App extends React.Component {
     }
 
     this.handleProceedClick = this.handleProceedClick.bind(this);
+    this.handleCheckBoxChange = this.handleCheckBoxChange.bind(this);
   }
 
-  // Pull data from firestore, store uniques in array
+  // Pull data from firestore, store uniques in array, itemData
   async getItemData() {
     const db = firebase.firestore();
     const res = await db.collection('items').get();
@@ -51,24 +53,33 @@ class App extends React.Component {
   // Helper function, returns a boolean if the item is already in the list (handles gravel dup problem)
   itemContainedInItemList(array, newItem) {
     const result = array.some(inListItem => {
-      return inListItem.name === newItem.name &&
-      inListItem.type === newItem.type;
+      return  inListItem.name === newItem.name &&
+              inListItem.type === newItem.type;
     })
 
     return result;
   }
 
-
-  // Store data from firestore in state
+  // On mounting, store data from firestore in state 
   async componentDidMount() {
+    
     const allItems = await this.getItemData();
+    
+    // This logic creates a key value pair for use by checkboxes
+    const allItemCheckBoxes = {};
+    allItems.forEach(item => {
+      let key = `${item.type},${item.name},${item.lowPrice},${item.highPrice}`
+      allItemCheckBoxes[key] = false;
+    })
+
     this.setState({
       allItems,
+      allItemCheckBoxes,
       isLoading: false
     });
   }
 
-  // Sets state on input into budget field
+  // Sets state on input into budget input, needs validation logic
   handleBudgetInput(field) {
     return e => {
       this.setState({ [field]: e.currentTarget.value });
@@ -84,13 +95,41 @@ class App extends React.Component {
     }
   }
 
+  handleCheckBoxChange(e) {
+    const key = e.currentTarget.value
+    const keyValues = key.split(",");
+    const lowPrice = parseInt(keyValues[2]);
+    const highPrice = parseInt(keyValues[3]);
+    const copy = Object.assign({}, this.state.allItemCheckBoxes);
+    
+    if (copy[key]) {
+      copy[key] = false;
+      this.setState({totalLowPrice: this.state.totalLowPrice - lowPrice})
+      this.setState({totalHighPrice: this.state.totalHighPrice - highPrice})
+    } else {
+      copy[key] = true;
+      this.setState({ totalLowPrice: this.state.totalLowPrice + lowPrice })
+      this.setState({ totalHighPrice: this.state.totalHighPrice + highPrice })
+    }
+  
+    this.setState({ allItemCheckBoxes: copy });
+  }
+
+
+  // Takes list of item objects, transforms into a table row with checkbox and table data
   renderTableData(items) {
     return items.map((item, idx) => {
-      const {name, highPrice, lowPrice } = item
+      const {type, name, highPrice, lowPrice } = item
       
       return (
         <tr key={idx}>
-          <td className="table-checkbox"><input type="checkbox"></input></td>
+          <td className="table-checkbox">
+            <input
+              type="checkbox"
+              value={`${type},${name},${lowPrice},${highPrice}`}
+              onChange={this.handleCheckBoxChange}>
+            </input>
+          </td>
           <td className="table-name">{name}</td>
           <td className="table-lowPrice">{this.numberWithCommas(lowPrice)}</td>
           <td className="table-highPrice">{this.numberWithCommas(highPrice)}</td>
@@ -99,13 +138,17 @@ class App extends React.Component {
     })
   }
 
+  // Helper function, adds thousands commas to a number
   numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
   render() {
+    // If still retrieving data, then show "Loading..."
     if (this.state.isLoading) return ("Loading...");
+    console.log(this.state);
 
+    // If app doesn't have budget, then show budget query
     if (!this.state.haveBudget) {
 
       return (
@@ -120,6 +163,7 @@ class App extends React.Component {
         </div>
       )
 
+    // If app does have a budget, show the checklist
     } else {
 
       //Parse allItems by type, add additional sorting logic where needed
@@ -140,18 +184,27 @@ class App extends React.Component {
               <tbody>
                 <tr>
                   <td></td>
-                  <td>Number of Lights</td>
+                  <td>No. of Lights</td>
                   <td>Low Estimate</td>
                   <td>High Estimate</td>
                 </tr>
                 {this.renderTableData(lighting)}
               </tbody>
             </table>
-          </div>
+
+            <table className="feature-table">
+              <tbody>
+                <tr>
+                  <td>Estimated Range</td>
+                  <td></td>
+                  <td>{this.state.totalLowPrice}</td>
+                  <td>{this.state.totalHighPrice}</td>
+                </tr>
+              </tbody>
+            </table>
 
 
-
-
+        </div>
 
 
 
