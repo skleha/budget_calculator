@@ -40,6 +40,7 @@ class App extends React.Component {
     return itemData;
   }  
 
+  // Store data from firestore in state
   async componentDidMount() {
     const allItems = await this.getItemData();
     this.setState({
@@ -48,13 +49,24 @@ class App extends React.Component {
     });
   }
 
+
+
+
+
+
   render() {
     if (this.state.isLoading) return ("Loading...");
 
     if (!this.state.haveBudget) {
 
       return (
-        <div>Give me your budget</div>
+        <div className="budget-query">
+          <div className="budget-title">What is your budget for this project?</div>
+          <input
+          className="budget-input"
+          type="text"
+          placeholder="enter a number"/>
+        </div>
       )
 
     } else {
