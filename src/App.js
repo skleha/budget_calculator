@@ -29,6 +29,7 @@ class App extends React.Component {
       )
     }
 
+    this.handleProceedClick = this.handleProceedClick.bind(this);
   }
 
   // Pull data from firestore, store in array
@@ -37,6 +38,7 @@ class App extends React.Component {
     const res = await db.collection('items').get();
     const itemData = [];
     res.docs.forEach(doc => itemData.push(doc.data()));
+    console.log(itemData);
     return itemData;
   }  
 
@@ -50,16 +52,31 @@ class App extends React.Component {
   }
 
 
-  handleInput(field) {
-
+  handleBudgetInput(field) {
     return e => {
       this.setState({ [field]: e.currentTarget.value });
     }
-
   }
+
+  handleProceedClick() {
+    if (this.state.budget === "") {
+      window.alert("Please enter a valid number");
+    } else {
+      this.setState({ haveBudget: true });
+    }
+  }
+
 
   render() {
     if (this.state.isLoading) return ("Loading...");
+
+    const lighting = this.state.allItems.filter(item => item.type === "LIGHTING");
+    const waterFeatures = this.state.allItems.filter(item => item.type === "WATER_FEATURES");
+    const groundCover = this.state.allItems.filter(item => item.type === "GROUND_COVER");
+    const fencingAndPrivacy = this.state.allItems.filter(item => item.type === "FENCING_AND_PRIVACY");
+    const deckMaterial = this.state.allItems.filter(item => item.type === "DECK_MATERIAL");
+    const structures = this.state.allItems.filter(item => item.type === "STRUCTURES");
+    
 
     if (!this.state.haveBudget) {
 
@@ -70,13 +87,16 @@ class App extends React.Component {
           className="budget-input"
           type="text"
           placeholder="enter a number"
-          onChange={this.handleInput("budget")}/>
-        
+          onChange={this.handleBudgetInput("budget")}/>
+          <button onClick={this.handleProceedClick}>Proceed</button>
         
         </div>
       )
 
     } else {
+
+      
+
 
       return (
         <div>Here is the checklist</div>
