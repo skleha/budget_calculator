@@ -32,15 +32,31 @@ class App extends React.Component {
     this.handleProceedClick = this.handleProceedClick.bind(this);
   }
 
-  // Pull data from firestore, store in array
+  // Pull data from firestore, store uniques in array
   async getItemData() {
     const db = firebase.firestore();
     const res = await db.collection('items').get();
     const itemData = [];
-    res.docs.forEach(doc => itemData.push(doc.data()));
+    res.docs.forEach(doc => {
+      let newItem = doc.data();
+      if (!this.itemContainedInItemList(itemData, newItem)) {
+        itemData.push(doc.data());
+      }      
+    })
     console.log(itemData);
     return itemData;
   }  
+
+  // Helper function, returns a boolean if the item is already in the list (handles gravel dup problem)
+  itemContainedInItemList(array, newItem) {
+    const result = array.some(inListItem => {
+      return inListItem.name === newItem.name &&
+      inListItem.type === newItem.type;
+    })
+
+    return result;
+  }
+
 
   // Store data from firestore in state
   async componentDidMount() {
@@ -70,12 +86,12 @@ class App extends React.Component {
   render() {
     if (this.state.isLoading) return ("Loading...");
 
-    const lighting = this.state.allItems.filter(item => item.type === "LIGHTING");
-    const waterFeatures = this.state.allItems.filter(item => item.type === "WATER_FEATURES");
-    const groundCover = this.state.allItems.filter(item => item.type === "GROUND_COVER");
-    const fencingAndPrivacy = this.state.allItems.filter(item => item.type === "FENCING_AND_PRIVACY");
-    const deckMaterial = this.state.allItems.filter(item => item.type === "DECK_MATERIAL");
-    const structures = this.state.allItems.filter(item => item.type === "STRUCTURES");
+    // const lighting = this.state.allItems.filter(item => item.type === "LIGHTING");
+    // const waterFeatures = this.state.allItems.filter(item => item.type === "WATER_FEATURES");
+    // const groundCover = this.state.allItems.filter(item => item.type === "GROUND_COVER");
+    // const fencingAndPrivacy = this.state.allItems.filter(item => item.type === "FENCING_AND_PRIVACY");
+    // const deckMaterial = this.state.allItems.filter(item => item.type === "DECK_MATERIAL");
+    // const structures = this.state.allItems.filter(item => item.type === "STRUCTURES");
     
 
     if (!this.state.haveBudget) {
