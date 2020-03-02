@@ -197,8 +197,8 @@ class App extends React.Component {
                 <tr>
                   <td>Estimated Range</td>
                   <td></td>
-                  <td>{this.state.totalLowPrice}</td>
-                  <td>{this.state.totalHighPrice}</td>
+                  <td>{this.numberWithCommas(this.state.totalLowPrice)}</td>
+                  <td>{this.numberWithCommas(this.state.totalHighPrice)}</td>
                 </tr>
               </tbody>
             </table>
