@@ -11,7 +11,9 @@ class App extends React.Component {
       isLoading: true,
       allItems: "",
       haveBudget: false,  
-      budget: ""
+      budget: "",
+      totalLowPrice: "",
+      totalHighPrice: ""
     }
 
     // Conditional here prevents double-initialization
