@@ -14,6 +14,7 @@ class App extends React.Component {
       budget: ""
     }
 
+    // Conditional here prevents double-initialization
     if (!firebase.apps.length) {
       firebase.initializeApp(
         {
@@ -28,16 +29,29 @@ class App extends React.Component {
       )
     }
 
-
   }
 
+  // Pull data from firestore, store in array
+  async getItemData() {
+    const db = firebase.firestore();
+    const res = await db.collection('items').get();
+    const itemData = [];
+    res.docs.forEach(doc => itemData.push(doc.data()));
+    return itemData;
+  }  
 
+  async componentDidMount() {
+    const allItems = await this.getItemData();
+    this.setState({
+      allItems,
+      isLoading: false
+    });
+  }
 
   render() {
 
     return (
       <div>You have the app</div>
-
     )
     
     
