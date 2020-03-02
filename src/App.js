@@ -51,15 +51,19 @@ class App extends React.Component {
   render() {
     if (this.state.isLoading) return ("Loading...");
 
+    if (!this.state.haveBudget) {
 
+      return (
+        <div>Give me your budget</div>
+      )
 
+    } else {
 
+      return (
+        <div>Here is the checklist</div>
+      )
 
-    return (
-      <div>You have the app</div>
-    )
-    
-    
+    } 
   }
     
         
