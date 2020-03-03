@@ -71,6 +71,11 @@
 .table-total {
   text-align: right;
   font-weight: bold;
+  color: green;
+}
+
+.table-total.overbudget {
+  color: red;
 }
 
 button {

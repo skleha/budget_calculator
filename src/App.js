@@ -2,6 +2,7 @@ import React  from 'react';
 import "firebase/firestore";
 import './App.css';
 import * as firebase from 'firebase/app';
+import classNames from 'classnames';
 
 class App extends React.Component {
 
@@ -174,6 +175,7 @@ class App extends React.Component {
       const fencingAndPrivacy = this.state.allItems.filter(item => item.type === "FENCING_AND_PRIVACY");
       const deckMaterial = this.state.allItems.filter(item => item.type === "DECK_MATERIAL");
       const structures = this.state.allItems.filter(item => item.type === "STRUCTURES");
+      const budgetFigureClassName = classNames("table-total", { overbudget: this.state.budget < this.state.totalLowPrice })
 
 
       return (
@@ -275,7 +277,7 @@ class App extends React.Component {
                 <td>Total Budget</td>
                 <td></td>
                 <td></td>
-                <td className="table-total">{this.numberWithCommas(this.state.budget)}</td>
+                <td className={budgetFigureClassName}>{this.numberWithCommas(this.state.budget)}</td>
               </tr>
             </tbody>
           </table>
