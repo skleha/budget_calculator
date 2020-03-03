@@ -152,13 +152,15 @@ class App extends React.Component {
 
       return (
         <div className="budget-query">
-          <div className="budget-title">What is your budget for this project?</div>
-          <input
-          className="budget-input"
-          type="text"
-          placeholder="enter a number"
-          onChange={this.handleBudgetInput("budget")}/>
-          <button className="proceed-button" onClick={this.handleProceedClick}>Proceed to Checklist</button>
+          
+            <div className="budget-title">Part 1: What were you thinking of spending?</div>
+            <input
+            className="budget-input"
+            type="text"
+            placeholder="enter a number"
+            onChange={this.handleBudgetInput("budget")}/>
+            <button className="proceed-button" onClick={this.handleProceedClick}>Proceed to Checklist</button>
+          
         </div>
       )
 
@@ -176,7 +178,7 @@ class App extends React.Component {
 
       return (
         <div className="checklist">
-          <div className="checklist-title">So tell us what you had in mind (check all that apply):</div>
+          <div className="checklist-title">Part 2: So tell us what you had in mind (check all that apply):</div>
 
           <div className="item-type-subheading">Lighting</div>
             <table className="feature-table">
