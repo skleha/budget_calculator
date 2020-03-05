@@ -1,6 +1,6 @@
 import React  from 'react';
 import "firebase/firestore";
-import './App.css';
+import '../stylesheets/App.css';
 import * as firebase from 'firebase/app';
 import classNames from 'classnames';
 
