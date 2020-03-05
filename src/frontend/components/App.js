@@ -2,6 +2,7 @@ import React  from 'react';
 import "firebase/firestore";
 import '../stylesheets/App.css';
 import * as firebase from 'firebase/app';
+import * as HelperFunc from '../helpers/helpers';
 import classNames from 'classnames';
 
 class App extends React.Component {
@@ -44,23 +45,14 @@ class App extends React.Component {
     const itemData = [];
     res.docs.forEach(doc => {
       let newItem = doc.data();
-      if (!this.itemContainedInItemList(itemData, newItem)) {
+      if (!HelperFunc.itemContainedInItemList(itemData, newItem)) {
         itemData.push(doc.data());
       }      
     })
     return itemData;
   }  
 
-  // Helper function, returns a boolean if the item is already in the list (handles gravel dup problem)
-  itemContainedInItemList(array, newItem) {
-    const result = array.some(inListItem => {
-      return  inListItem.name === newItem.name &&
-              inListItem.type === newItem.type;
-    })
-
-    return result;
-  }
-
+  
   // On mounting, store data from firestore in state 
   async componentDidMount() {
     
@@ -132,17 +124,15 @@ class App extends React.Component {
             </input>
           </td>
           <td className="table-name">{name}</td>
-          <td className="table-lowPrice">{this.numberWithCommas(lowPrice)}</td>
-          <td className="table-highPrice">{this.numberWithCommas(highPrice)}</td>
+          <td className="table-lowPrice">{HelperFunc.numberWithCommas(lowPrice)}</td>
+          <td className="table-highPrice">{HelperFunc.numberWithCommas(highPrice)}</td>
         </tr>
       )
     })
   }
 
-  // Helper function, adds thousands commas to a number
-  numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  }
+  
+  
 
   render() {
     // If still retrieving data, then show "Loading..."
@@ -265,8 +255,8 @@ class App extends React.Component {
               <tr>
                 <td>Estimated Range</td>
                 <td></td>
-                <td className="table-lowPrice">{this.numberWithCommas(this.state.totalLowPrice)}</td>
-                <td className="table-highPrice">{this.numberWithCommas(this.state.totalHighPrice)}</td>
+                <td className="table-lowPrice">{HelperFunc.numberWithCommas(this.state.totalLowPrice)}</td>
+                <td className="table-highPrice">{HelperFunc.numberWithCommas(this.state.totalHighPrice)}</td>
               </tr>
             </tbody>
           </table>
@@ -277,7 +267,7 @@ class App extends React.Component {
                 <td>Total Budget</td>
                 <td></td>
                 <td></td>
-                <td className={budgetFigureClassName}>{this.numberWithCommas(this.state.budget)}</td>
+                <td className={budgetFigureClassName}>{HelperFunc.numberWithCommas(this.state.budget)}</td>
               </tr>
             </tbody>
           </table>
