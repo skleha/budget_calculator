@@ -49,6 +49,7 @@ class App extends React.Component {
         itemData.push(doc.data());
       }      
     })
+    console.log(itemData);
     return itemData;
   }  
 
