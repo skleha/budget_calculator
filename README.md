@@ -1,14 +1,8 @@
 # Budget Calculator Exercise
 
 
-## Key Specifications
-
-* Create a simple Budget calculator/checklist using React and firebase
-* The app should take a numerical "budget" input
-* Then the app presents the user with a page full of multiple select components
-* As well as an upper and lower range budget calculated from the items a user has selected.
-
-The application boiler plate is a 'create-react-app' with firebase initialized in src/index.js. You _will not_ have to create a firebase project or do any setup aside from running `npm install`. The demo firestore database has no access controll, no authentication needed.
+## Brief Summary
+Budget Calculator was designed with a landscape architecture firm in mind.  Part of the design process involves a calibration between the customer's budget and the cost of the chose design.  This app takes in a budget, provides a set broad design elements (such as ground covering or water feature), and calculates the estimated cost of the selected elements.  A gravel ground covering has a cost; a water feature has a cost; when these two costs are combined, the total cost may exceed the customer's budget.  The tool thus allows a customer to add or subtract elements until some combination meets the budget.
 
 ## Key Specifications
 1. Start the user experience by asking the client to enter a budget for their project.
