@@ -1,4 +1,4 @@
-# Budget Calculator Exercise
+# React Budget Calculator Exercise
 
 
 ### Brief Summary
