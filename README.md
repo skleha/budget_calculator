@@ -5,7 +5,7 @@
 Budget Calculator was designed with a landscape architecture project in mind.  Part of the design process of such projects involves a calibration between the customer's budget and the cost of the chosen design.  This app takes in a customer's budget, provides a set of design elements (such as ground covering or water feature) and their associates cost estimates, and calculates the total estimated cost of the selected design elements.  A gravel ground covering has a cost; a water feature has a cost; when these two costs are summed, the total cost may exceed the customer's budget.  The tool thus allows a customer to add or subtract elements until some combination meets the budget.
 
 ### Key Specifications
-1. The application querys the user for a budget for the project.
+1. The application queries the user for a budget for the project.
 2. The application correctly pulls design elements and their associate cost estimates from the firebase firestore collection "items".
 3. The application displays items in a checklist grouped by "type" (see item interface below).
 4. Each "type" section should allow __one__ or __none__ of the items of that type to be selected/checked at a time.
