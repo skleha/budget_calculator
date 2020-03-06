@@ -38,26 +38,12 @@ class App extends React.Component {
     this.handleCheckBoxChange = this.handleCheckBoxChange.bind(this);
   }
 
-  // Pull data from firestore, store uniques in array, itemData
-  async getItemData() {
-    const db = firebase.firestore();
-    const res = await db.collection('items').get();
-    const itemData = [];
-    res.docs.forEach(doc => {
-      let newItem = doc.data();
-      if (!HelperFunc.itemContainedInItemList(itemData, newItem)) {
-        itemData.push(doc.data());
-      }      
-    })
-    console.log(itemData);
-    return itemData;
-  }  
-
-  
+    
   // On mounting, store data from firestore in state 
   async componentDidMount() {
     
-    const allItems = await this.getItemData();
+    const allItems = await HelperFunc.fetchAndParseItemData();
+    console.log(allItems);
     
     // This logic creates a key value pair for use by checkboxes
     const allItemCheckBoxes = {};
@@ -109,31 +95,6 @@ class App extends React.Component {
     this.setState({ allItemCheckBoxes: copy });
   }
 
-
-  // Takes list of item objects, transforms into a table row with checkbox and table data
-  renderTableData(items) {
-    return items.map((item, idx) => {
-      const {type, name, highPrice, lowPrice } = item
-      
-      return (
-        <tr key={idx}>
-          <td className="table-checkbox">
-            <input
-              type="checkbox"
-              value={`${type},${name},${lowPrice},${highPrice}`}
-              onChange={this.handleCheckBoxChange}>
-            </input>
-          </td>
-          <td className="table-name">{name}</td>
-          <td className="table-lowPrice">{HelperFunc.numberWithCommas(lowPrice)}</td>
-          <td className="table-highPrice">{HelperFunc.numberWithCommas(highPrice)}</td>
-        </tr>
-      )
-    })
-  }
-
-  
-  
 
   render() {
     // If still retrieving data, then show "Loading..."
