@@ -15,7 +15,7 @@ const FeatureRow = (props) => {
           <input
             type="checkbox"
             value={`${type},${name},${lowPrice},${highPrice}`}
-            // Add function here
+            onChange={props.handleCheckBoxChange}
             >
           </input>
         </td>

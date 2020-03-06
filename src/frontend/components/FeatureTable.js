@@ -18,7 +18,9 @@ const FeatureTable = (props) => {
             <th className="table-lowPrice-header">Low Estimate</th>
             <th className="table-highPrice-header">High Estimate</th>
           </tr>
-          <FeatureRow items={props.items}/>
+          <FeatureRow
+            items={props.items}
+            handleCheckBoxChange={props.handleCheckBoxChange} />
         </tbody>
       </table>
     </div>

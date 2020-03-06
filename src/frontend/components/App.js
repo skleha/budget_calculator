@@ -119,25 +119,36 @@ class App extends React.Component {
       return (
         <div className="checklist">
           <div className="checklist-title">Part 2: So tell us what you had in mind (check all that apply):</div>
-
-          <ul>
+          
             {allItemsArray.map((featureItems, idx) => (
-              <FeatureTable key={idx} type={featureItems[0]} items={featureItems[1]} />
+              <FeatureTable
+                key={idx}
+                type={featureItems[0]}
+                items={featureItems[1]}
+                handleCheckBoxChange={this.handleCheckBoxChange} />
             ))}
-          </ul>
+          
+            <table className="feature-table">
+              <tbody>
 
-          <table className="feature-table">
-            <tbody>
-              <tr>
-                <td>Total Budget</td>
-                <td></td>
-                <td></td>
-                <td className={budgetFigureClassName}>{HelperFunc.numberWithCommas(this.state.budget)}</td>
-              </tr>
-            </tbody>
-          </table>
+                <tr>
+                  <td>Estimates</td>
+                  <td></td>
+                  <td className="table-lowPrice">{this.state.totalLowPrice}</td>
+                  <td className="table-highPrice">{this.state.totalHighPrice}</td>
+                </tr>
 
-          <button className="submit-ideas">Submit Ideas</button>
+                <tr>
+                  <td>Total Budget</td>
+                  <td></td>
+                  <td></td>
+                  <td className={budgetFigureClassName}>{HelperFunc.numberWithCommas(this.state.budget)}</td>
+                </tr>
+
+              </tbody>
+            </table>
+
+            <button className="submit-ideas">Submit Ideas</button>
 
         </div>
 
