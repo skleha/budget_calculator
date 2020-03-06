@@ -43,15 +43,8 @@ class App extends React.Component {
   async componentDidMount() {
     
     const allItems = await HelperFunc.fetchAndParseItemData();
-    console.log(allItems);
+    const allItemCheckBoxes = HelperFunc.createCheckboxKeys(allItems);
     
-    // This logic creates a key value pair for use by checkboxes
-    const allItemCheckBoxes = {};
-    allItems.forEach(item => {
-      let key = `${item.type},${item.name},${item.lowPrice},${item.highPrice}`
-      allItemCheckBoxes[key] = false;
-    })
-
     this.setState({
       allItems,
       allItemCheckBoxes,
@@ -59,6 +52,8 @@ class App extends React.Component {
     });
   }
 
+
+  
   // Sets state on input into budget input, needs validation logic
   handleBudgetInput(field) {
     return e => {

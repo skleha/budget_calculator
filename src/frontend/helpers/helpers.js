@@ -11,7 +11,7 @@ export const typeNames = {
   DECK_MATERIAL: "Deck Material"
 }
 
-// Pull data from firestore, 
+// Pull data from firestore, parse using helper below
 export const fetchAndParseItemData = async () => {
   const db = firebase.firestore();
   const response = await db.collection('items').get();
@@ -20,7 +20,7 @@ export const fetchAndParseItemData = async () => {
 }
 
 // Parse data from database;
-export const normalizeData = (response) => {
+export const normalizeData = response => {
 
   const allItems = { 
     LIGHTING: [],
@@ -83,6 +83,22 @@ export const normalizeData = (response) => {
 
   return allItems;
 }
+
+export const createCheckboxKeys = allItems => {
+  
+  const allItemCheckBoxes = {};
+
+  for (let type in allItems) {
+    let typeItems = allItems[type];
+    typeItems.forEach(item => {
+      let key = `${item.type},${item.name},${item.lowPrice},${item.highPrice}`;
+      allItemCheckBoxes[key] = false;
+    })
+  }
+
+  return allItemCheckBoxes;
+}
+
 
 
 
