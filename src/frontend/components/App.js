@@ -4,6 +4,7 @@ import '../stylesheets/App.css';
 import * as firebase from 'firebase/app';
 import * as HelperFunc from '../helpers/helpers';
 import classNames from 'classnames';
+import FeatureTable from './FeatureTable';
 
 class App extends React.Component {
 
@@ -41,7 +42,6 @@ class App extends React.Component {
     
   // On mounting, store data from firestore in state 
   async componentDidMount() {
-    
     const allItems = await HelperFunc.fetchAndParseItemData();
     const allItemCheckBoxes = HelperFunc.createCheckboxKeys(allItems);
     
@@ -52,8 +52,6 @@ class App extends React.Component {
     });
   }
 
-
-  
   // Sets state on input into budget input, needs validation logic
   handleBudgetInput(field) {
     return e => {
@@ -115,108 +113,18 @@ class App extends React.Component {
     // If app does have a budget, show the checklist
     } else {
 
-      //Parse allItems by type, add additional sorting logic where needed
-      const lighting = this.state.allItems.filter(item => item.type === "LIGHTING").sort((a,b) => parseInt(a.highPrice) - parseInt(b.highPrice));
-      const waterFeatures = this.state.allItems.filter(item => item.type === "WATER_FEATURES").sort((a, b) => parseInt(a.highPrice) - parseInt(b.highPrice));
-      const groundCover = this.state.allItems.filter(item => item.type === "GROUND_COVER");
-      const fencingAndPrivacy = this.state.allItems.filter(item => item.type === "FENCING_AND_PRIVACY");
-      const deckMaterial = this.state.allItems.filter(item => item.type === "DECK_MATERIAL");
-      const structures = this.state.allItems.filter(item => item.type === "STRUCTURES");
       const budgetFigureClassName = classNames("table-total", { overbudget: this.state.budget < this.state.totalLowPrice })
-
+      const allItemsArray = Object.entries(this.state.allItems);
 
       return (
         <div className="checklist">
           <div className="checklist-title">Part 2: So tell us what you had in mind (check all that apply):</div>
 
-          <div className="item-type-subheading">Lighting</div>
-            <table className="feature-table">
-              <tbody>
-                <tr>
-                  <td></td>
-                  <td className="table-name-header">No. of Lights</td>
-                  <td className="table-lowPrice-header">Low Estimate</td>
-                  <td className="table-highPrice-header">High Estimate</td>
-                </tr>
-                {this.renderTableData(lighting)}
-              </tbody>
-            </table>
-
-          <div className="item-type-subheading">Water Features</div>
-          <table className="feature-table">
-            <tbody>
-              <tr>
-                <td></td>
-                <td className="table-name-header">Feature</td>
-                <td className="table-lowPrice-header">Low Estimate</td>
-                <td className="table-highPrice-header">High Estimate</td>
-              </tr>
-              {this.renderTableData(waterFeatures)}
-            </tbody>
-          </table>
-
-          <div className="item-type-subheading">Ground Cover</div>
-          <table className="feature-table">
-            <tbody>
-              <tr>
-                <td></td>
-                <td className="table-name-header">Feature</td>
-                <td className="table-lowPrice-header">Low Estimate</td>
-                <td className="table-highPrice-header">High Estimate</td>
-              </tr>
-              {this.renderTableData(groundCover)}
-            </tbody>
-          </table>
-
-          <div className="item-type-subheading">Fencing And Privacy</div>
-          <table className="feature-table">
-            <tbody>
-              <tr>
-                <td></td>
-                <td className="table-name-header">Feature</td>
-                <td className="table-lowPrice-header">Low Estimate</td>
-                <td className="table-highPrice-header">High Estimate</td>
-              </tr>
-                {this.renderTableData(fencingAndPrivacy)}
-            </tbody>
-          </table>
-
-          <div className="item-type-subheading">Deck Material</div>
-          <table className="feature-table">
-            <tbody>
-              <tr>
-                <td></td>
-                <td className="table-name-header">Material</td>
-                <td className="table-lowPrice-header">Low Estimate</td>
-                <td className="table-highPrice-header">High Estimate</td>
-              </tr>
-              {this.renderTableData(deckMaterial)}
-            </tbody>
-          </table>
-
-          <div className="item-type-subheading">Structures</div>
-          <table className="feature-table">
-            <tbody>
-              <tr>
-                <td></td>
-                <td className="table-name-header">Structure</td>
-                <td className="table-lowPrice-header">Low Estimate</td>
-                <td className="table-highPrice-header">High Estimate</td>
-              </tr>
-              {this.renderTableData(structures)}
-            </tbody>
-          </table>
-
-          <table className="feature-table">
-            <tbody>
-              <tr>
-                <td>Estimated Range</td>
-                <td></td>
-                <td className="table-lowPrice">{HelperFunc.numberWithCommas(this.state.totalLowPrice)}</td>
-                <td className="table-highPrice">{HelperFunc.numberWithCommas(this.state.totalHighPrice)}</td>
-              </tr>
-            </tbody>
-          </table>
+          <ul>
+            {allItemsArray.map((featureItems, idx) => (
+              <FeatureTable key={idx} type={featureItems[0]} items={featureItems[1]} />
+            ))}
+          </ul>
 
           <table className="feature-table">
             <tbody>

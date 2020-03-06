@@ -2,7 +2,7 @@ import * as firebase from 'firebase/app';
 
 
 // Creates nice names for ALL_CAPS feature types
-export const typeNames = {
+export const typeToNiceLabel = {
   LIGHTING: "Lighting",
   WATER_FEATURES: "Water Features",
   GROUND_COVER: "Ground Cover",
@@ -32,6 +32,7 @@ export const normalizeData = response => {
     OTHER: [],
   };
 
+  // categorize data by type
   response.docs.forEach(doc => {
     
     let newItem = doc.data();
@@ -39,38 +40,38 @@ export const normalizeData = response => {
 
     switch (newItem.type) {
 
-      case "LIGHTING":
-        if (uniqueItem(allItemsSlice, newItem)) {
+      case "LIGHTING":        
+        if (isUniqueItem(allItemsSlice, newItem)) {
           allItemsSlice.push(newItem);
         }
         break;
 
       case "WATER_FEATURES":
-        if (uniqueItem(allItemsSlice, newItem)) {
+        if (isUniqueItem(allItemsSlice, newItem)) {
           allItemsSlice.push(newItem);
         }
         break;
 
       case "GROUND_COVER":
-        if (uniqueItem(allItemsSlice, newItem)) {
+        if (isUniqueItem(allItemsSlice, newItem)) {
           allItemsSlice.push(newItem);
         }
         break;
 
       case "FENCING_AND_PRIVACY":
-        if (uniqueItem(allItemsSlice, newItem)) {
+        if (isUniqueItem(allItemsSlice, newItem)) {
           allItemsSlice.push(newItem);
         }
         break;
 
       case "STRUCTURES":
-        if (uniqueItem(allItemsSlice, newItem)) {
+        if (isUniqueItem(allItemsSlice, newItem)) {
           allItemsSlice.push(newItem);
         }
         break;
 
-      case "DECK_MATERIALS":
-        if (uniqueItem(allItemsSlice, newItem)) {
+      case "DECK_MATERIAL":
+        if (isUniqueItem(allItemsSlice, newItem)) {
           allItemsSlice.push(newItem);
         }
         break;
@@ -81,16 +82,21 @@ export const normalizeData = response => {
     }
   })
 
+  // Sort data by high price
+  for (let type in allItems) {
+    allItems[type].sort((a, b) => parseInt(a.highPrice) - parseInt(b.highPrice))
+  }
+
   return allItems;
 }
 
+// Creates checkbox keys
 export const createCheckboxKeys = allItems => {
   
   const allItemCheckBoxes = {};
 
   for (let type in allItems) {
-    let typeItems = allItems[type];
-    typeItems.forEach(item => {
+    allItems[type].forEach(item => {
       let key = `${item.type},${item.name},${item.lowPrice},${item.highPrice}`;
       allItemCheckBoxes[key] = false;
     })
@@ -100,14 +106,10 @@ export const createCheckboxKeys = allItems => {
 }
 
 
-
-
-
 // Returns a boolean if the item is already in the list (handles gravel dup problem)
-export const uniqueItem = (array, newItem) => {
+export const isUniqueItem = (array, newItem) => {
   const result = array.every(inListItem => {
-    return inListItem.name !== newItem.name &&
-      inListItem.type !== newItem.type;
+    return inListItem.name !== newItem.name
   })
 
   return result;

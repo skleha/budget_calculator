@@ -5,9 +5,9 @@ import * as HelperFunc from '../helpers/helpers';
 
 const FeatureRow = (props) => {
 
-  return this.props.featureList.map((item, idx) => {
+  return props.items.map((item, idx) => {
 
-    const { type, name, highPrice, lowPrice } = this.props.data;
+    const { type, name, highPrice, lowPrice } = item;
 
     return (
       <tr key={idx}>
@@ -15,7 +15,8 @@ const FeatureRow = (props) => {
           <input
             type="checkbox"
             value={`${type},${name},${lowPrice},${highPrice}`}
-            onChange={this.handleCheckBoxChange}>
+            // Add function here
+            >
           </input>
         </td>
         <td className="table-name">{name}</td>
