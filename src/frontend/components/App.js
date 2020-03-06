@@ -1,5 +1,5 @@
 import React  from 'react';
-import "firebase/firestore";
+// import "firebase/firestore";
 import '../stylesheets/App.css';
 import * as firebase from 'firebase/app';
 import * as HelperFunc from '../helpers/helpers';
