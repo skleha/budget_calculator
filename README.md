@@ -9,9 +9,10 @@ Budget Calculator was designed with a landscape architecture project in mind.  P
 2. The application correctly pulls design elements and their associate cost estimates from the firebase firestore collection "items".
 3. The application displays items in a checklist grouped by "type" (see item interface below).
 4. Each "type" section should allow __one__ or __none__ of the items of that type to be selected/checked at a time.
-5. Every item has a lowPrice and a highPrice. This should be used to calculate and display a price range somewhere on the screen.
-6. The application should give the user feedback depending on how well the items they have selected fit into their budget, ie: letting the user know if their budget falls below the minimum bounds of the estimate, if their budget is above the upper bound, etc.
-7.  The client should be able to submit the checklist. Store this information however you like in firestore, but DO NOT modify the items collection.
+5. Every item has a lowPrice and a highPrice. These estimate costs should be used to calculate and display a total cost range.
+6. The application should display a total cost range.
+7. The application should give the user feedback on how well their selected items fit into their budget.  That is, the user should understand when their budget falls below the minimum cost estimate or exceeds the maximum cost estimate.
+8.  The client should be able to submit the checklist. Store this information however you like in firestore, but DO NOT modify the items collection.
 
 ### Comments on Data and Data Structures
 
