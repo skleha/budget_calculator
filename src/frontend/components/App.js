@@ -12,8 +12,8 @@ function App() {
   return (
     <BudgetContext.Provider value={budgetHook}>
       <HashRouter>
-        <Route path="/worksheet" component={Worksheet} />
-        <Route path="/budget" component={BudgetQuery} />
+        <Route exact path="/worksheet" component={Worksheet} />
+        <Route exact path="/budget" component={BudgetQuery} />
       </HashRouter>
     </BudgetContext.Provider>
   );

@@ -1,6 +1,14 @@
 import * as firebase from 'firebase/app';
 
 
+// Validates budget input
+export const validNumber = input => {
+  const commasRemoved = input.split(",").join("");
+  const num = Number(commasRemoved);
+  return !isNaN(num);
+}
+
+
 // Creates nice names for ALL_CAPS feature types
 export const typeToNiceLabel = {
   LIGHTING: "Lighting",

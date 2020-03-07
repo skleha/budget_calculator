@@ -1,15 +1,25 @@
 import React, { useState, useContext } from 'react';
 import BudgetContext from '../contexts/BudgetContext';
+import { validNumber } from '../helpers/helpers';
 
 
 
-function BudgetQuery() {
+function BudgetQuery(props) {
 
   const [queryBudget, setQueryBudget] = useState(0);
   const [budget, setBudget] = useContext(BudgetContext);
 
   const handleProceedClick = e => {
-    setBudget(queryBudget);
+    
+    const commasRemoved = queryBudget.split(",").join("");
+    
+    if (validNumber(commasRemoved)) {
+      setBudget(commasRemoved);
+      props.history.push("/worksheet");
+    } else {
+      console.log("not valid input");
+      // show error message
+    }
   }
 
   return (
