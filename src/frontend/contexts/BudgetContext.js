@@ -1,4 +1,4 @@
 import React from "react";
 
-const BudgetContext = React.createContext([0, () => {}]);
+const BudgetContext = React.createContext();
 export default BudgetContext;
