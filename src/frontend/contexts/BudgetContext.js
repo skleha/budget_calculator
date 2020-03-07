@@ -1,7 +1,4 @@
 import React from "react";
 
-export const BudgetData = {
-  amount: 69,
-}
-
-export const BudgetContext = React.createContext();
+const BudgetContext = React.createContext([0, () => {}]);
+export default BudgetContext;
