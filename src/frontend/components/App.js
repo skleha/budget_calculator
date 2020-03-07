@@ -4,13 +4,19 @@ import BudgetQuery from './BudgetQuery';
 import Worksheet from './Worksheet';
 
 
-function App() {
+const BudgetContext = React.createContext();
 
+
+function App() {
+  const budget = { budget: 69 };
+  
   return (
-    <HashRouter>
-      <Route path="/worksheet" component={Worksheet} />
-      <Route path="/budget" component={BudgetQuery} />
-    </HashRouter>
+    <BudgetContext.Provider value={budget}>
+      <HashRouter>
+        <Route path="/worksheet" component={Worksheet} />
+        <Route path="/budget" component={BudgetQuery} />
+      </HashRouter>
+    </BudgetContext.Provider>
   );
 
 }
