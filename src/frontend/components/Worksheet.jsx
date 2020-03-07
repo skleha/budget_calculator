@@ -1,4 +1,4 @@
-import React  from 'react';
+import React from 'react';
 // import "firebase/firestore";
 import '../stylesheets/App.css';
 import * as firebase from 'firebase/app';
@@ -6,13 +6,13 @@ import * as HelperFunc from '../helpers/helpers';
 import classNames from 'classnames';
 import FeatureTable from './FeatureTable';
 
-class App extends React.Component {
+class Worksheet extends React.Component {
 
   constructor(props) {
     super(props)
     this.state = {
       isLoading: true,
-      haveBudget: false,  
+      haveBudget: false,
       budget: "",
       allItems: "",
       allItemCheckBoxes: "",
@@ -39,12 +39,12 @@ class App extends React.Component {
     this.handleCheckBoxChange = this.handleCheckBoxChange.bind(this);
   }
 
-    
+
   // On mounting, parse and store data from firestore in state 
   async componentDidMount() {
     const allItems = await HelperFunc.fetchAndParseItemData();
     const allItemCheckBoxes = HelperFunc.createCheckboxKeys(allItems);
-    
+
     this.setState({
       allItems,
       allItemCheckBoxes,
@@ -74,17 +74,17 @@ class App extends React.Component {
     const lowPrice = parseInt(keyValues[2]);
     const highPrice = parseInt(keyValues[3]);
     const copy = Object.assign({}, this.state.allItemCheckBoxes);
-    
+
     if (copy[key]) {
       copy[key] = false;
-      this.setState({totalLowPrice: this.state.totalLowPrice - lowPrice})
-      this.setState({totalHighPrice: this.state.totalHighPrice - highPrice})
+      this.setState({ totalLowPrice: this.state.totalLowPrice - lowPrice })
+      this.setState({ totalHighPrice: this.state.totalHighPrice - highPrice })
     } else {
       copy[key] = true;
       this.setState({ totalLowPrice: this.state.totalLowPrice + lowPrice })
       this.setState({ totalHighPrice: this.state.totalHighPrice + highPrice })
     }
-  
+
     this.setState({ allItemCheckBoxes: copy });
   }
 
@@ -98,19 +98,19 @@ class App extends React.Component {
 
       return (
         <div className="budget-query">
-          
-            <div className="budget-title">Part 1: What were you thinking of spending?</div>
-            <input
+
+          <div className="budget-title">Part 1: What were you thinking of spending?</div>
+          <input
             className="budget-input"
             type="text"
             placeholder="enter a number"
-            onChange={this.handleBudgetInput("budget")}/>
-            <button className="proceed-button" onClick={this.handleProceedClick}>Proceed to Checklist</button>
-          
+            onChange={this.handleBudgetInput("budget")} />
+          <button className="proceed-button" onClick={this.handleProceedClick}>Proceed to Checklist</button>
+
         </div>
       )
 
-    // If app does have a budget, show the checklist
+      // If app does have a budget, show the checklist
     } else {
 
       const budgetFigureClassName = classNames("table-total", { overbudget: this.state.budget < this.state.totalLowPrice })
@@ -119,44 +119,44 @@ class App extends React.Component {
       return (
         <div className="checklist">
           <div className="checklist-title">Part 2: So tell us what you had in mind (check all that apply):</div>
-          
-            {allItemsArray.map((featureItems, idx) => (
-              <FeatureTable
-                key={idx}
-                type={featureItems[0]}
-                items={featureItems[1]}
-                handleCheckBoxChange={this.handleCheckBoxChange} />
-            ))}
-          
-            <table className="feature-table">
-              <tbody>
 
-                <tr>
-                  <td>Estimates</td>
-                  <td></td>
-                  <td className="table-lowPrice">{this.state.totalLowPrice}</td>
-                  <td className="table-highPrice">{this.state.totalHighPrice}</td>
-                </tr>
+          {allItemsArray.map((featureItems, idx) => (
+            <FeatureTable
+              key={idx}
+              type={featureItems[0]}
+              items={featureItems[1]}
+              handleCheckBoxChange={this.handleCheckBoxChange} />
+          ))}
 
-                <tr>
-                  <td>Total Budget</td>
-                  <td></td>
-                  <td></td>
-                  <td className={budgetFigureClassName}>{HelperFunc.numberWithCommas(this.state.budget)}</td>
-                </tr>
+          <table className="feature-table">
+            <tbody>
 
-              </tbody>
-            </table>
+              <tr>
+                <td>Estimates</td>
+                <td></td>
+                <td className="table-lowPrice">{this.state.totalLowPrice}</td>
+                <td className="table-highPrice">{this.state.totalHighPrice}</td>
+              </tr>
 
-            <button className="submit-ideas">Submit Ideas</button>
+              <tr>
+                <td>Total Budget</td>
+                <td></td>
+                <td></td>
+                <td className={budgetFigureClassName}>{HelperFunc.numberWithCommas(this.state.budget)}</td>
+              </tr>
+
+            </tbody>
+          </table>
+
+          <button className="submit-ideas">Submit Ideas</button>
 
         </div>
 
-        )
-    } 
+      )
+    }
   }
-    
-        
+
+
 }
-    
-export default App;
+
+export default Worksheet;
