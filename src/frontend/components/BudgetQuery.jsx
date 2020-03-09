@@ -25,7 +25,7 @@ function BudgetQuery(props) {
   return (
     <div className="budget-query">
       <div className="budget-title">
-        Part 1: What were you thinking of spending? {budget} {queryBudget}
+        Part 1: What were you thinking of spending?{budget} {queryBudget}
       </div>
       <input
         className="budget-input"

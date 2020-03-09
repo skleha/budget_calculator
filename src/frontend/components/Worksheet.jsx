@@ -35,7 +35,6 @@ class Worksheet extends React.Component {
       )
     }
 
-    this.handleProceedClick = this.handleProceedClick.bind(this);
     this.handleCheckBoxChange = this.handleCheckBoxChange.bind(this);
   }
 
@@ -59,15 +58,7 @@ class Worksheet extends React.Component {
     }
   }
 
-  // Allows user to proceed to next step non-empty-string state
-  handleProceedClick() {
-    if (this.state.budget === "") {
-      window.alert("Please enter a valid number");
-    } else {
-      this.setState({ haveBudget: true });
-    }
-  }
-
+  
   handleCheckBoxChange(e) {
     const key = e.currentTarget.value
     const keyValues = key.split(",");
@@ -92,26 +83,6 @@ class Worksheet extends React.Component {
   render() {
     // If still retrieving data, then show "Loading..."
     if (this.state.isLoading) return ("Loading...");
-
-    // If app doesn't have budget, then show budget query
-    if (!this.state.haveBudget) {
-
-      return (
-        <div className="budget-query">
-
-          <div className="budget-title">Part 1: What were you thinking of spending?</div>
-          <input
-            className="budget-input"
-            type="text"
-            placeholder="enter a number"
-            onChange={this.handleBudgetInput("budget")} />
-          <button className="proceed-button" onClick={this.handleProceedClick}>Proceed to Checklist</button>
-
-        </div>
-      )
-
-      // If app does have a budget, show the checklist
-    } else {
 
       const budgetFigureClassName = classNames("table-total", { overbudget: this.state.budget < this.state.totalLowPrice })
       const allItemsArray = Object.entries(this.state.allItems);
@@ -153,7 +124,7 @@ class Worksheet extends React.Component {
         </div>
 
       )
-    }
+    
   }
 
 
