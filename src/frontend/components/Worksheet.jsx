@@ -12,7 +12,6 @@ class Worksheet extends React.Component {
     super(props)
     this.state = {
       isLoading: true,
-      haveBudget: false,
       budget: "",
       allItems: "",
       allItemCheckBoxes: "",
@@ -49,13 +48,6 @@ class Worksheet extends React.Component {
       allItemCheckBoxes,
       isLoading: false
     });
-  }
-
-  // Sets state on input into budget input, needs validation logic
-  handleBudgetInput(field) {
-    return e => {
-      this.setState({ [field]: e.currentTarget.value });
-    }
   }
 
   
