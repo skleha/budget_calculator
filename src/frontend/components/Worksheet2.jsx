@@ -2,7 +2,7 @@
 import React, {useState, useEffect, useContext } from 'react';
 import FeatureTable from './FeatureTable';
 import * as HelperFunc from '../helpers/helpers';
-
+import firestore from "./firestore";
 import BudgetContext from '../contexts/BudgetContext';
 import classNames from 'classnames';
 
